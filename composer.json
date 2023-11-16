@@ -1,5 +1,5 @@
 {
-    "name": "ipagdevs/ipag-sdk-php",
+    "name": "sthales/ipag-sdk-php-v2",
     "description": "",
     "type": "library",
     "autoload": {
