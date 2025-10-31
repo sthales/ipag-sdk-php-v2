@@ -16,6 +16,7 @@ class PaymentTest extends TestCase
             'fraud_analysis' => true,
             'softdescriptor' => 'Maria José',
             'pix_expires_in' => 1000,
+            'recurring' => true,
             'card' => [
                 'holder' => 'Maria José',
                 'number' => '123456789',
@@ -46,6 +47,7 @@ class PaymentTest extends TestCase
         $this->assertEquals(true, $payment->getFraudAnalysis());
         $this->assertEquals('Maria José', $payment->getSoftDescriptor());
         $this->assertEquals(1000, $payment->getPixExpiresIn());
+        $this->assertEquals(true, $payment->getRecurring());
 
         $this->assertInstanceOf(\Ipag\Sdk\Model\PaymentCard::class, $payment->getCard());
 
@@ -79,6 +81,7 @@ class PaymentTest extends TestCase
             ->setFraudAnalysis(true)
             ->setSoftDescriptor('Maria José')
             ->setPixExpiresIn(1000)
+            ->setRecurring(true)
             ->setCard(
                 (new \Ipag\Sdk\Model\PaymentCard())
                     ->setHolder('Maria José')
@@ -101,7 +104,6 @@ class PaymentTest extends TestCase
                                 'instruction' => 'lálálá'
                             ],
                         ]
-
                     )
             );
 
@@ -112,6 +114,7 @@ class PaymentTest extends TestCase
         $this->assertEquals(true, $payment->getFraudAnalysis());
         $this->assertEquals('Maria José', $payment->getSoftDescriptor());
         $this->assertEquals(1000, $payment->getPixExpiresIn());
+        $this->assertEquals(true, $payment->getRecurring());
 
         $this->assertInstanceOf(\Ipag\Sdk\Model\PaymentCard::class, $payment->getCard());
 
@@ -146,6 +149,7 @@ class PaymentTest extends TestCase
         $this->assertEmpty($payment->getFraudAnalysis());
         $this->assertEmpty($payment->getSoftDescriptor());
         $this->assertEmpty($payment->getPixExpiresIn());
+        $this->assertEmpty($payment->getRecurring());
 
         $this->assertEmpty($payment->getCard());
         $this->assertEmpty($payment->getBoleto());
@@ -162,6 +166,7 @@ class PaymentTest extends TestCase
             'fraud_analysis' => true,
             'softdescriptor' => 'Maria José',
             'pix_expires_in' => 1000,
+            'recurring' => true,
             'card' => [
                 'holder' => 'Maria José',
                 'number' => '123456789',
@@ -193,6 +198,7 @@ class PaymentTest extends TestCase
             ->setFraudAnalysis(null)
             ->setSoftDescriptor(null)
             ->setPixExpiresIn(null)
+            ->setRecurring(null)
             ->setCard(null)
             ->setBoleto(null);
 
@@ -203,6 +209,7 @@ class PaymentTest extends TestCase
         $this->assertEmpty($payment->getFraudAnalysis());
         $this->assertEmpty($payment->getSoftDescriptor());
         $this->assertEmpty($payment->getPixExpiresIn());
+        $this->assertEmpty($payment->getRecurring());
 
         $this->assertEmpty($payment->getCard());
         $this->assertEmpty($payment->getBoleto());

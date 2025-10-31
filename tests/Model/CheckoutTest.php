@@ -28,10 +28,10 @@ class CheckoutTest extends TestCase
             ],
             'split_rules' => [
                 [
-                    "receiver_id" => "1000000",
+                    "seller_id" => "1000000",
                 ],
                 [
-                    "receiver_id" => "1000001",
+                    "seller_id" => "1000001",
                 ],
             ],
             'seller_id' => '100014',
@@ -60,8 +60,8 @@ class CheckoutTest extends TestCase
         $this->assertInstanceOf(\Ipag\Sdk\Model\SplitRules::class, $checkout->getSplitRules()[0]);
         $this->assertInstanceOf(\Ipag\Sdk\Model\SplitRules::class, $checkout->getSplitRules()[1]);
 
-        $this->assertEquals('1000000', $checkout->getSplitRules()[0]->getReceiverId());
-        $this->assertEquals('1000001', $checkout->getSplitRules()[1]->getReceiverId());
+        $this->assertEquals('1000000', $checkout->getSplitRules()[0]->getSellerId());
+        $this->assertEquals('1000001', $checkout->getSplitRules()[1]->getSellerId());
 
         $this->assertEquals('100014', $checkout->getSellerId());
         $this->assertEquals(60, $checkout->getExpiresIn());
@@ -93,11 +93,11 @@ class CheckoutTest extends TestCase
             )
             ->addSplitRule(
                 (new \Ipag\Sdk\Model\SplitRules())
-                    ->setReceiverId('1000000')
+                    ->setSellerId('1000000')
             )
             ->addSplitRule(
                 (new \Ipag\Sdk\Model\SplitRules())
-                    ->setReceiverId('1000001')
+                    ->setSellerId('1000001')
             )
             ->setSellerId('100014')
             ->setExpiresIn(60);
@@ -124,8 +124,8 @@ class CheckoutTest extends TestCase
         $this->assertInstanceOf(\Ipag\Sdk\Model\SplitRules::class, $checkout->getSplitRules()[0]);
         $this->assertInstanceOf(\Ipag\Sdk\Model\SplitRules::class, $checkout->getSplitRules()[1]);
 
-        $this->assertEquals('1000000', $checkout->getSplitRules()[0]->getReceiverId());
-        $this->assertEquals('1000001', $checkout->getSplitRules()[1]->getReceiverId());
+        $this->assertEquals('1000000', $checkout->getSplitRules()[0]->getSellerId());
+        $this->assertEquals('1000001', $checkout->getSplitRules()[1]->getSellerId());
 
         $this->assertEquals('100014', $checkout->getSellerId());
         $this->assertEquals(60, $checkout->getExpiresIn());
@@ -171,10 +171,10 @@ class CheckoutTest extends TestCase
             ],
             'split_rules' => [
                 [
-                    "receiver_id" => "1000000",
+                    "seller_id" => "1000000",
                 ],
                 [
-                    "receiver_id" => "1000001",
+                    "seller_id" => "1000001",
                 ],
             ],
             'seller_id' => '100014',

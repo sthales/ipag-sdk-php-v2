@@ -4,6 +4,7 @@ composer.phar
 .devcontainer
 .vscode
 Dockerfile
+*docker*
 annotations.md
 .phpunit.cache
 clover.xml

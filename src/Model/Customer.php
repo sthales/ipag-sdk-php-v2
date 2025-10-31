@@ -2,10 +2,10 @@
 
 namespace Ipag\Sdk\Model;
 
-use Ipag\Sdk\Model\Schema\Mutator;
 use Ipag\Sdk\Model\Schema\Schema;
-use Ipag\Sdk\Model\Schema\SchemaBuilder;
 use Kubinyete\Assertation\Assert;
+use Ipag\Sdk\Model\Schema\Mutator;
+use Ipag\Sdk\Model\Schema\SchemaBuilder;
 
 /**
  * Customer Class
@@ -24,6 +24,7 @@ final class Customer extends Model
      *  + [`'is_active'`] bool (opcional).
      *  + [`'email'`] string (opcional).
      *  + [`'phone'`] string (opcional).
+     *  + [`'tax_id'`] string (opcional).
      *  + [`'cpf_cnpj'`] string (opcional).
      *  + [`'business_name'`] string (opcional).
      *  + [`'birthdate'`] string (opcional) {`Formato: Y-m-d`}.
@@ -67,6 +68,7 @@ final class Customer extends Model
         $schema->bool('is_active')->nullable();
         $schema->string('email')->nullable();
         $schema->string('phone')->nullable();
+        $schema->string('tax_id')->nullable();
         $schema->string('cpf_cnpj')->nullable();
         $schema->string('tax_receipt')->nullable();
         $schema->string('business_name')->nullable();
@@ -127,7 +129,7 @@ final class Customer extends Model
 
     protected function name(): Mutator
     {
-        return new Mutator(null, fn($value) => strval($value));
+        return new Mutator(null, fn ($value) => strval($value));
     }
 
     /**
@@ -154,7 +156,7 @@ final class Customer extends Model
 
     protected function is_active(): Mutator
     {
-        return new Mutator(null, fn($value) => (bool) $value);
+        return new Mutator(null, fn ($value) => (bool) $value);
         ;
     }
 
@@ -184,7 +186,7 @@ final class Customer extends Model
     {
         return new Mutator(
             null,
-            fn($value, $ctx) =>
+            fn ($value, $ctx) =>
             is_null($value) ?
             $value :
             Assert::value($value)->email()->get() ?? $ctx->raise('inválido')
@@ -217,7 +219,7 @@ final class Customer extends Model
     {
         return new Mutator(
             null,
-            fn($value, $ctx) =>
+            fn ($value, $ctx) =>
             is_null($value) ?
             $value :
             Assert::value($value)->asDigits()->lbetween(10, 11)->get() ?? $ctx->raise('inválido')
@@ -250,7 +252,7 @@ final class Customer extends Model
     {
         return new Mutator(
             null,
-            fn($value, $ctx) =>
+            fn ($value, $ctx) =>
             is_null($value) ?
             $value :
             Assert::value($value)->asCpf(false)->or()->asCnpj(false)->get() ?? $ctx->raise('inválido')
@@ -261,7 +263,7 @@ final class Customer extends Model
     {
         return new Mutator(
             null,
-            fn($value, $ctx) =>
+            fn ($value, $ctx) =>
             is_null($value) ?
             $value :
             Assert::value($value)->asCpf(false)->or()->asCnpj(false)->get() ?? $ctx->raise('inválido')
@@ -287,6 +289,28 @@ final class Customer extends Model
     public function setTaxReceipt(?string $taxReceipt = null): self
     {
         $this->set('tax_receipt', $taxReceipt);
+        return $this;
+    }
+
+    /**
+     * Retorna o valor da propriedade tax_id.
+     *
+     * @return string|null
+     */
+    public function getTaxId(): ?string
+    {
+        return $this->get('tax_id');
+    }
+
+    /**
+     * Seta o valor da propriedade tax_id.
+     *
+     * @param string|null $taxId
+     * @return self
+     */
+    public function setTaxId(?string $taxId = null): self
+    {
+        $this->set('tax_id', $taxId);
         return $this;
     }
 
