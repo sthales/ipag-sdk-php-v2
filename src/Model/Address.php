@@ -25,6 +25,7 @@ final class Address extends Model
      *  + [`'city'`] string (opcional).
      *  + [`'state'`] string (opcional).
      *  + [`'zipcode'`] string (opcional).
+     *  + [`'country'`] string (opcional).
      */
     public function __construct(?array $data = [])
     {
@@ -40,6 +41,7 @@ final class Address extends Model
         $schema->string('city')->nullable();
         $schema->string('state')->nullable();
         $schema->string('zipcode')->nullable();
+        $schema->string('country')->nullable();
 
         return $schema->build();
     }
@@ -232,6 +234,33 @@ final class Address extends Model
     public function setZipcode(?string $zipcode): self
     {
         $this->set('zipcode', $zipcode);
+        return $this;
+    }
+
+    public function country(): Mutator
+    {
+        return new Mutator(null, fn ($value, $ctx) => is_null($value) ? null : (strlen($value) !== 2 ? $ctx->raise('inválido') : strval($value)));
+    }
+
+    /**
+     * Retorna o valor da propriedade country.
+     *
+     * @return string|null
+     */
+    public function getCountry(): ?string
+    {
+        return $this->get('country');
+    }
+
+    /**
+     * Seta o valor da propriedade country.
+     *
+     * @param string|null $country
+     * @return self
+     */
+    public function setCountry(?string $country): self
+    {
+        $this->set('country', $country);
         return $this;
     }
 }

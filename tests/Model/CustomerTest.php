@@ -2,8 +2,8 @@
 
 namespace Ipag\Sdk\Tests\Model;
 
-use Ipag\Sdk\Model\Schema\Exception\MutatorAttributeException;
 use PHPUnit\Framework\TestCase;
+use Ipag\Sdk\Model\Schema\Exception\MutatorAttributeException;
 
 class CustomerTest extends TestCase
 {
@@ -13,6 +13,7 @@ class CustomerTest extends TestCase
             'id' => '123',
             'uuid' => 'abc123',
             'tax_receipt' => '074.598.263-83',
+            'tax_id' => '123456789',
             'birthdate' => '1980-01-01',
             'ip' => '10.0.0.1',
             'name' => 'Lívia Julia Eduarda Barros',
@@ -39,6 +40,7 @@ class CustomerTest extends TestCase
         $this->assertEquals($customer->getId(), '123');
         $this->assertEquals($customer->getUuid(), 'abc123');
         $this->assertEquals($customer->getTaxReceipt(), '07459826383');
+        $this->assertEquals($customer->getTaxId(), '123456789');
         $this->assertEquals($customer->getBirthdate(), '1980-01-01');
         $this->assertEquals($customer->getIp(), '10.0.0.1');
 
@@ -66,6 +68,7 @@ class CustomerTest extends TestCase
             ->setId('123')
             ->setUuid('abc123')
             ->setTaxReceipt('074.598.263-83')
+            ->setTaxId('123456789')
             ->setBirthdate('1980-01-01')
             ->setIp('10.0.0.1')
             ->setName('Lívia Julia Eduarda Barros')
@@ -81,6 +84,7 @@ class CustomerTest extends TestCase
         $this->assertEquals($customer->getId(), '123');
         $this->assertEquals($customer->getUuid(), 'abc123');
         $this->assertEquals($customer->getTaxReceipt(), '07459826383');
+        $this->assertEquals($customer->getTaxId(), '123456789');
         $this->assertEquals($customer->getBirthdate(), '1980-01-01');
         $this->assertEquals($customer->getIp(), '10.0.0.1');
 
@@ -104,6 +108,7 @@ class CustomerTest extends TestCase
         $this->assertEmpty($customer->getId());
         $this->assertEmpty($customer->getUuid());
         $this->assertEmpty($customer->getTaxReceipt());
+        $this->assertEmpty($customer->getTaxId());
         $this->assertEmpty($customer->getBirthdate());
         $this->assertEmpty($customer->getIp());
 
@@ -125,6 +130,7 @@ class CustomerTest extends TestCase
             'id' => '123',
             'uuid' => 'abc123',
             'tax_receipt' => '074.598.263-83',
+            'tax_id' => '123456789',
             'birthdate' => '1980-01-01',
             'ip' => '10.0.0.1',
             'name' => 'Lívia Julia Eduarda Barros',
@@ -151,6 +157,7 @@ class CustomerTest extends TestCase
             ->setId(null)
             ->setUuid(null)
             ->setTaxReceipt(null)
+            ->setTaxId(null)
             ->setBirthdate(null)
             ->setIp(null)
             ->setName(null)
@@ -166,6 +173,7 @@ class CustomerTest extends TestCase
         $this->assertEmpty($customer->getId());
         $this->assertEmpty($customer->getUuid());
         $this->assertEmpty($customer->getTaxReceipt());
+        $this->assertEmpty($customer->getTaxId());
         $this->assertEmpty($customer->getBirthdate());
         $this->assertEmpty($customer->getIp());
 

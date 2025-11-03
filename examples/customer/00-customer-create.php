@@ -6,6 +6,7 @@ $customer = new Ipag\Sdk\Model\Customer([
     'name' => 'Bruce Wayne',
     'email' => 'brucewayne@email.com',
     'cpf_cnpj' => '490.558.550-30',
+    'tax_id' => '49055855030',
     'phone' => '(22) 2222-33333',
     'business_name' => 'Wayne Enterprises',
     'birthdate' => '1987-02-19',

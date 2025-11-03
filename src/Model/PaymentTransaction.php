@@ -2,10 +2,10 @@
 
 namespace Ipag\Sdk\Model;
 
-use Ipag\Sdk\Model\Schema\Mutator;
 use Ipag\Sdk\Model\Schema\Schema;
-use Ipag\Sdk\Model\Schema\SchemaBuilder;
 use Kubinyete\Assertation\Assert;
+use Ipag\Sdk\Model\Schema\Mutator;
+use Ipag\Sdk\Model\Schema\SchemaBuilder;
 
 /**
  * PaymentTransaction Class
@@ -21,7 +21,9 @@ final class PaymentTransaction extends Model
      *
      *  + [`'amount'`] float.
      *  + [`'order_id'`] string.
+     *  + [`'merchant_id'`] string.
      *  + [`'callback_url'`] string.
+     *  + [`'redirect_url'`] string.
      *
      *  + [`'antifraud'`] array (opcional) dos dados do Antifraud.
      *  + &emsp; [`'fingerprint'`] string.
@@ -113,7 +115,9 @@ final class PaymentTransaction extends Model
     {
         $schema->float('amount')->nullable();
         $schema->string('order_id')->nullable();
+        $schema->string('merchant_id')->nullable();
         $schema->string('callback_url')->nullable();
+        $schema->string('redirect_url')->nullable();
 
         $schema->has('antifraud', PaymentAntifraud::class)->nullable();
         $schema->has('payment', Payment::class)->nullable();
@@ -130,7 +134,7 @@ final class PaymentTransaction extends Model
     {
         return new Mutator(
             null,
-            fn($value, $ctx) =>
+            fn ($value, $ctx) =>
             is_null($value) ? $value :
             (
                 Assert::value(floatval($value))->gte(0)->get()
@@ -184,6 +188,28 @@ final class PaymentTransaction extends Model
     }
 
     /**
+     * Retorna o valor da propriedade `merchant_id`.
+     *
+     * @return string|null
+     */
+    public function getMerchantId(): ?string
+    {
+        return $this->get('merchant_id');
+    }
+
+    /**
+     * Seta o valor da propriedade `merchant_id`.
+     *
+     * @param string|null $merchantId
+     * @return self
+     */
+    public function setMerchantId(?string $merchantId = null): self
+    {
+        $this->set('merchant_id', $merchantId);
+        return $this;
+    }
+
+    /**
      * Retorna o valor da propriedade `callback_url`.
      *
      * @return string|null
@@ -202,6 +228,28 @@ final class PaymentTransaction extends Model
     public function setCallbackUrl(?string $callbackUrl = null): self
     {
         $this->set('callback_url', $callbackUrl);
+        return $this;
+    }
+
+    /**
+     * Retorna o valor da propriedade `redirect_url`.
+     *
+     * @return string|null
+     */
+    public function getRedirectUrl(): ?string
+    {
+        return $this->get('redirect_url');
+    }
+
+    /**
+     * Seta o valor da propriedade `redirect_url`.
+     *
+     * @param string|null $redirectUrl
+     * @return self
+     */
+    public function setRedirectUrl(?string $redirectUrl = null): self
+    {
+        $this->set('redirect_url', $redirectUrl);
         return $this;
     }
 

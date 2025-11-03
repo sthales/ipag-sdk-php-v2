@@ -9,18 +9,19 @@ on:
 permissions:
   contents: read
 
+env:
+  # pin a Code Climate test-reporter release to avoid "latest" redirects returning HTML
+  CC_TEST_REPORTER_VERSION: v0.11.1
+
 jobs:
 
   phpunit:
-
     runs-on: ubuntu-latest
-
     env:
       CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_ID }}
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/checkout@master
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -31,13 +32,69 @@ jobs:
       - name: Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-      - name: Code Climate Setup
+      - name: Download Code Climate test-reporter
         run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter && chmod +x ./cc-test-reporter
-          ./cc-test-reporter before-build
+          set -euo pipefail
+          echo "Downloading test-reporter from CodeClimate v${CC_TEST_REPORTER_VERSION}"
+          curl -fsSL "https://github.com/codeclimate/test-reporter/releases/download/${CC_TEST_REPORTER_VERSION}/artifacts.tar.gz" -o artifacts.tar.gz || { echo "curl failed"; exit 1; }
+          # Extract the linux-amd64 binary from the artifacts
+          tar -xf artifacts.tar.gz ./artifacts/bin/test-reporter-${CC_TEST_REPORTER_VERSION#v}-linux-amd64
+          mv ./artifacts/bin/test-reporter-${CC_TEST_REPORTER_VERSION#v}-linux-amd64 ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          rm -rf artifacts.tar.gz artifacts/
+          # Verify the binary works
+          ./cc-test-reporter --version
+
+      - name: Check CodeClimate Configuration
+        run: |
+          if [ -z "${{ env.CC_TEST_REPORTER_ID }}" ]; then
+            echo "WARNING: CC_TEST_REPORTER_ID is not set. CodeClimate reporting will be skipped."
+          else
+            echo "CodeClimate Reporter ID is configured (length: ${#CC_TEST_REPORTER_ID})"
+          fi
+
+      - name: Code Climate before-build
+        if: env.CC_TEST_REPORTER_ID != ''
+        run: |
+          echo "Initializing CodeClimate test reporter..."
+          ./cc-test-reporter before-build || {
+            echo "CodeClimate before-build failed, but continuing..."
+            exit 0
+          }
+
       - name: Run Tests
         run: |
           php vendor/bin/phpunit --color --testdox --coverage-clover clover.xml tests
-      - name: Send Report
+          echo "TEST_EXIT_CODE=$?" >> $GITHUB_ENV
+
+      - name: Verify coverage file
         run: |
-          ./cc-test-reporter after-build -t clover --exit-code $?
+          if [ -f clover.xml ]; then
+            echo "Coverage file generated successfully"
+            ls -la clover.xml
+            head -5 clover.xml
+          else
+            echo "Coverage file not found!"
+            exit 1
+          fi
+
+      - name: Send Report
+        if: env.CC_TEST_REPORTER_ID != ''
+        run: |
+          if [ -f clover.xml ]; then
+            echo "Sending coverage report to CodeClimate..."
+            echo "File size: $(wc -l < clover.xml) lines"
+            echo "Exit code: $TEST_EXIT_CODE"
+            
+            # Enable debug mode to see what's happening
+            ./cc-test-reporter after-build -d -t clover --exit-code $TEST_EXIT_CODE || {
+              echo "CodeClimate upload failed. This might be due to:"
+              echo "1. Invalid CC_TEST_REPORTER_ID"
+              echo "2. Network issues"
+              echo "3. CodeClimate API problems"
+              echo "Continuing without failing the build..."
+              exit 0
+            }
+          else
+            echo "No coverage file found, skipping CodeClimate report"
+          fi

@@ -6,7 +6,9 @@ $paymentTransaction = new \Ipag\Sdk\Model\PaymentTransaction(
     [
         'amount' => 100,
         'callback_url' => 'https://ipag-sdk.requestcatcher.com/callback',
+        'redirect_url' => 'https://ipag-sdk.requestcatcher.com/redirect',
         'order_id' => '12345679',
+        'merchant_id' => '12345678',
         'payment' => [
             'type' => Ipag\Sdk\Core\Enums\PaymentTypes::CARD,
             'method' => Ipag\Sdk\Core\Enums\Cards::VISA,
@@ -42,7 +44,7 @@ try {
             // Faça algo aqui...
             break;
         default:
-        // Faça algo aqui...
+            // Faça algo aqui...
     }
 
     // Verifica o status retornado do gateway de pagamento
@@ -51,7 +53,7 @@ try {
             // Faça algo aqui...
             break;
         default:
-        // Faça algo aqui...
+            // Faça algo aqui...
     }
 
     // Verifica o status retornado da Adquirente de pagamento
@@ -60,7 +62,7 @@ try {
             // Faça algo aqui...
             break;
         default:
-        // Faça algo aqui...
+            // Faça algo aqui...
     }
 
     echo "Status do Pagamento retornado: {$statusPayment}" . PHP_EOL;

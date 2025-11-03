@@ -3,7 +3,7 @@
 require_once __DIR__ . '/..' . '/config.php';
 
 $splitRules = new \Ipag\Sdk\Model\SplitRules([
-    "receiver_id" => "100024",
+    "seller_id" => "100024",
     "percentage" => 10.00
 ]);
 
