@@ -122,7 +122,7 @@ class SubscriptionV2Test extends TestCase
         $this->assertEquals(100022, $subscription->getCustomerId());
 
         $this->assertInstanceOf(Plan::class, $subscription->getPlan());
-        $this->assertEquals('Plano da Lojinha Básico', $subscription->getPlan()->getNome());
+        $this->assertEquals('Plano da Lojinha Básico', $subscription->getPlan()->getName());
         $this->assertEquals(200.00, $subscription->getPlan()->getAmount());
         $this->assertEquals('monthly', $subscription->getPlan()->getFrequency());
         $this->assertEquals(5, $subscription->getPlan()->getInterval());

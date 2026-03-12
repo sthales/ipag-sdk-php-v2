@@ -36,7 +36,7 @@ class Plan extends Model
         return array_filter(parent::jsonSerialize(), fn($v) => !is_null($v));
     }
 
-    public function getNome(): ?string
+    public function getName(): ?string
     {
         return $this->get('name');
     }

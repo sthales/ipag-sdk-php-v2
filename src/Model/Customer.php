@@ -157,7 +157,7 @@ final class Customer extends Model
 
     protected function is_active(): Mutator
     {
-        return new Mutator(null, fn($value) => (bool) $value);;
+        return new Mutator(null, fn($value) => (bool) $value);
     }
 
     /**
