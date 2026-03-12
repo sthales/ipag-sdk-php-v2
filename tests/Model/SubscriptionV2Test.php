@@ -332,7 +332,7 @@ class SubscriptionV2Test extends TestCase
             ->setPlan($plan);
 
         $this->assertInstanceOf(Plan::class, $subscription->getPlan());
-        $this->assertEquals('Plano Premium', $subscription->getPlan()->getNome());
+        $this->assertEquals('Plano Premium', $subscription->getPlan()->getName());
         $this->assertEquals(99.90, $subscription->getPlan()->getAmount());
         $this->assertEquals('monthly', $subscription->getPlan()->getFrequency());
         $this->assertEquals(1, $subscription->getPlan()->getInterval());
@@ -417,7 +417,7 @@ class SubscriptionV2Test extends TestCase
 
         $plan = $subscription->getPlan();
         $this->assertInstanceOf(Plan::class, $plan);
-        $this->assertEquals('Plano Completo', $plan->getNome());
+        $this->assertEquals('Plano Completo', $plan->getName());
         $this->assertEquals('Plano com todos os campos', $plan->getDescription());
         $this->assertEquals(500.00, $plan->getAmount());
         $this->assertEquals('monthly', $plan->getFrequency());
