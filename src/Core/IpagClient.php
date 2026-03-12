@@ -9,10 +9,12 @@ use Ipag\Sdk\Endpoint\CustomerEndpoint;
 use Ipag\Sdk\Endpoint\EstablishmentEndpoint;
 use Ipag\Sdk\Endpoint\PaymentEndpoint;
 use Ipag\Sdk\Endpoint\PaymentLinksEndpoint;
+use Ipag\Sdk\Endpoint\PaymentLinksV2Endpoint;
 use Ipag\Sdk\Endpoint\SellerEndpoint;
 use Ipag\Sdk\Endpoint\SplitRulesEndpoint;
 use Ipag\Sdk\Endpoint\SubscriptionEndpoint;
 use Ipag\Sdk\Endpoint\SubscriptionPlanEndpoint;
+use Ipag\Sdk\Endpoint\SubscriptionV2Endpoint;
 use Ipag\Sdk\Endpoint\TokenEndpoint;
 use Ipag\Sdk\Endpoint\TransactionEndpoint;
 use Ipag\Sdk\Endpoint\TransferEndpoint;
@@ -30,9 +32,7 @@ use Psr\Log\LoggerInterface;
 class IpagClient extends Client
 {
 
-    public function IpagClient()
-    {
-    }
+    public function IpagClient() {}
 
     /**
      * @param string $apiID API ID é a identificação do usuário.
@@ -72,6 +72,11 @@ class IpagClient extends Client
         return SubscriptionEndpoint::make($this, $this);
     }
 
+    public function subscriptionV2(): SubscriptionV2Endpoint
+    {
+        return SubscriptionV2Endpoint::make($this, $this);
+    }
+
     public function transaction(): TransactionEndpoint
     {
         return TransactionEndpoint::make($this, $this);
@@ -100,6 +105,11 @@ class IpagClient extends Client
     public function paymentLinks(): PaymentLinksEndpoint
     {
         return PaymentLinksEndpoint::make($this, $this);
+    }
+
+    public function paymentLinksV2(): PaymentLinksV2Endpoint
+    {
+        return PaymentLinksV2Endpoint::make($this, $this);
     }
 
     public function webhook(): WebhookEndpoint
@@ -131,5 +141,4 @@ class IpagClient extends Client
     {
         return PaymentEndpoint::make($this, $this);
     }
-
 }

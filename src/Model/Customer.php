@@ -79,6 +79,7 @@ final class Customer extends Model
         $schema->has('address', Address::class)->nullable();
         $schema->has('billing_address', Address::class)->nullable();
         $schema->has('shipping_address', Address::class)->nullable();
+        $schema->has('owner', Owner::class)->nullable();
 
         return $schema->build();
     }
@@ -129,7 +130,7 @@ final class Customer extends Model
 
     protected function name(): Mutator
     {
-        return new Mutator(null, fn ($value) => strval($value));
+        return new Mutator(null, fn($value) => strval($value));
     }
 
     /**
@@ -156,8 +157,7 @@ final class Customer extends Model
 
     protected function is_active(): Mutator
     {
-        return new Mutator(null, fn ($value) => (bool) $value);
-        ;
+        return new Mutator(null, fn($value) => (bool) $value);
     }
 
     /**
@@ -186,10 +186,10 @@ final class Customer extends Model
     {
         return new Mutator(
             null,
-            fn ($value, $ctx) =>
+            fn($value, $ctx) =>
             is_null($value) ?
-            $value :
-            Assert::value($value)->email()->get() ?? $ctx->raise('inválido')
+                $value :
+                Assert::value($value)->email()->get() ?? $ctx->raise('inválido')
         );
     }
 
@@ -219,10 +219,10 @@ final class Customer extends Model
     {
         return new Mutator(
             null,
-            fn ($value, $ctx) =>
+            fn($value, $ctx) =>
             is_null($value) ?
-            $value :
-            Assert::value($value)->asDigits()->lbetween(10, 11)->get() ?? $ctx->raise('inválido')
+                $value :
+                Assert::value($value)->asDigits()->lbetween(10, 11)->get() ?? $ctx->raise('inválido')
         );
     }
 
@@ -252,10 +252,10 @@ final class Customer extends Model
     {
         return new Mutator(
             null,
-            fn ($value, $ctx) =>
+            fn($value, $ctx) =>
             is_null($value) ?
-            $value :
-            Assert::value($value)->asCpf(false)->or()->asCnpj(false)->get() ?? $ctx->raise('inválido')
+                $value :
+                Assert::value($value)->asCpf(false)->or()->asCnpj(false)->get() ?? $ctx->raise('inválido')
         );
     }
 
@@ -263,10 +263,10 @@ final class Customer extends Model
     {
         return new Mutator(
             null,
-            fn ($value, $ctx) =>
+            fn($value, $ctx) =>
             is_null($value) ?
-            $value :
-            Assert::value($value)->asCpf(false)->or()->asCnpj(false)->get() ?? $ctx->raise('inválido')
+                $value :
+                Assert::value($value)->asCpf(false)->or()->asCnpj(false)->get() ?? $ctx->raise('inválido')
         );
     }
 
@@ -487,4 +487,25 @@ final class Customer extends Model
         return $this;
     }
 
+    /**
+     * Retorna o objeto owner do cliente.
+     *
+     * @return Owner|null
+     */
+    public function getOwner(): ?Owner
+    {
+        return $this->get('owner');
+    }
+
+    /**
+     * Seta o objeto owner do cliente.
+     *
+     * @param Owner|null $owner
+     * @return self
+     */
+    public function setOwner(?Owner $owner = null): self
+    {
+        $this->set('owner', $owner);
+        return $this;
+    }
 }
