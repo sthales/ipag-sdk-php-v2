@@ -1,12 +1,13 @@
 <?php
 
-namespace Ipag\Sdk\Tests;
+namespace Ipag\Sdk\Tests\Examples;
 
 use DateTime;
 use Ipag\Sdk\Model\Model;
 use Ipag\Sdk\Model\Schema\Mutator;
 use Ipag\Sdk\Model\Schema\Schema;
 use Ipag\Sdk\Model\Schema\SchemaBuilder;
+use Ipag\Sdk\Tests\BaseTestCase;
 
 class User extends Model
 {
@@ -23,7 +24,7 @@ class User extends Model
     {
         return new Mutator(
             null,
-            fn($x, $ctx) => $x > 0 ? $x : $ctx->raise('Um ID nao pode ser menor ou igual a zero')
+            fn ($x, $ctx) => $x > 0 ? $x : $ctx->raise('Um ID nao pode ser menor ou igual a zero')
         );
     }
 

@@ -2,7 +2,6 @@
 
 namespace Ipag\Sdk\Tests\Model;
 
-use Ipag\Sdk\Model\Schema\Exception\MutatorAttributeException;
 use PHPUnit\Framework\TestCase;
 
 class AddressTest extends TestCase
@@ -16,7 +15,8 @@ class AddressTest extends TestCase
             'city' => 'São Luís',
             'complement' => 'Sala 001',
             'state' => 'MA',
-            'zipcode' => '65076-020'
+            'zipcode' => '65076-020',
+            'country' => 'BR'
         ]);
 
         $this->assertEquals($address->getComplement(), 'Sala 001');
@@ -26,7 +26,7 @@ class AddressTest extends TestCase
         $this->assertEquals($address->getCity(), 'São Luís');
         $this->assertEquals($address->getState(), 'MA');
         $this->assertEquals($address->getZipcode(), '65076020');
-
+        $this->assertEquals($address->getCountry(), 'BR');
     }
 
     public function testShouldCreateAddressObjectAndSetTheValuesSuccessfully()
@@ -38,7 +38,8 @@ class AddressTest extends TestCase
             ->setComplement('Sala 001')
             ->setCity('São Luís')
             ->setState('MA')
-            ->setZipcode('65076020');
+            ->setZipcode('65076020')
+            ->setCountry('BR');
 
         $this->assertEquals($address->getComplement(), 'Sala 001');
         $this->assertEquals($address->getStreet(), 'Rua Agenor Vieira');
@@ -47,7 +48,7 @@ class AddressTest extends TestCase
         $this->assertEquals($address->getCity(), 'São Luís');
         $this->assertEquals($address->getState(), 'MA');
         $this->assertEquals($address->getZipcode(), '65076020');
-
+        $this->assertEquals($address->getCountry(), 'BR');
     }
 
     public function testShouldCreateEmptyAddressObjectSuccessfully()
@@ -61,6 +62,8 @@ class AddressTest extends TestCase
         $this->assertEmpty($address->getCity());
         $this->assertEmpty($address->getState());
         $this->assertEmpty($address->getZipcode());
+        $this->assertEmpty($address->getComplement());
+        $this->assertEmpty($address->getCountry());
     }
 
     public function testCreateAndSetEmptyPropertiesAddressObjectSuccessfully()
@@ -72,7 +75,8 @@ class AddressTest extends TestCase
             'city' => 'São Luís',
             'complement' => 'Sala 001',
             'state' => 'MA',
-            'zipcode' => '65076-020'
+            'zipcode' => '65076-020',
+            'country' => 'BR'
         ]);
 
         $address
@@ -82,7 +86,8 @@ class AddressTest extends TestCase
             ->setCity(null)
             ->setState(null)
             ->setZipcode(null)
-            ->setComplement(null);
+            ->setComplement(null)
+            ->setCountry(null);
 
         $this->assertEmpty($address->getComplement());
         $this->assertEmpty($address->getStreet());
@@ -91,17 +96,36 @@ class AddressTest extends TestCase
         $this->assertEmpty($address->getCity());
         $this->assertEmpty($address->getState());
         $this->assertEmpty($address->getZipcode());
-
     }
 
-    public function testShouldThrowAValidationExceptionOnTheAddressNumberProperty()
+    public function testShouldAcceptAddressNumberPropertyWithLetters()
     {
         $address = new \Ipag\Sdk\Model\Address();
 
-        $this->expectException(MutatorAttributeException::class);
+        $address->setNumber('BR 163');
 
-        $address->setNumber('abc');
-
+        $this->assertEquals('BR 163', $address->getNumber());
     }
 
+    public function testShouldValidateCountryCodeLength()
+    {
+        $address = new \Ipag\Sdk\Model\Address();
+
+        // Valid 2-character country code
+        $address->setCountry('BR');
+        $this->assertEquals('BR', $address->getCountry());
+
+        // Invalid country code (more than 2 characters) should raise exception
+        $this->expectException(\Ipag\Sdk\Model\Schema\Exception\MutatorAttributeException::class);
+        $address->setCountry('BRAZIL');
+    }
+
+    public function testShouldValidateCountryCodeLengthOneCharacter()
+    {
+        $address = new \Ipag\Sdk\Model\Address();
+
+        // Invalid country code (1 character) should raise exception
+        $this->expectException(\Ipag\Sdk\Model\Schema\Exception\MutatorAttributeException::class);
+        $address->setCountry('B');
+    }
 }

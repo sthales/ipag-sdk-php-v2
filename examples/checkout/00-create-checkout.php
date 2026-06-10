@@ -49,12 +49,12 @@ $checkout = new \Ipag\Sdk\Model\Checkout([
     ],
     'split_rules' => [
         [
-            'receiver' => 'vendedor1@email.com',
+            'seller_id' => '1000000',
             'percentage' => '50',
             'charge_processing_fee' => true,
         ],
         [
-            'receiver' => 'vendedor2@email.com',
+            'seller_id' => '1000001',
             'percentage' => '20'
         ]
     ],

@@ -2,6 +2,7 @@
     "name": "sthales/ipag-sdk-php-v2",
     "description": "",
     "type": "library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Ipag\\Sdk\\": "src/"
@@ -16,7 +17,7 @@
         "php": ">=7.4",
         "guzzlehttp/guzzle": ">=6.0",
         "kubinyete/assertation": "^1.0",
-        "psr/log": "^1.1",
+        "psr/log": "^1.0|^2.0|^3.0",
         "symfony/polyfill-php81": "^1.28",
         "symfony/polyfill-php80": "^1.28"
     },
@@ -25,5 +26,15 @@
         "fakerphp/faker": "^1.23",
         "phpunit/phpunit": "^9.6",
         "phpunit/php-code-coverage": "^9.2.13"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.33"
+        },
+        "audit": {
+            "ignore": {
+                "PKSA-z3gr-8qht-p93v": "*"
+            }
+        }
     }
 }

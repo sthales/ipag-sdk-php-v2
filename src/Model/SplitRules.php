@@ -2,10 +2,10 @@
 
 namespace Ipag\Sdk\Model;
 
-use Ipag\Sdk\Model\Schema\Mutator;
 use Ipag\Sdk\Model\Schema\Schema;
-use Ipag\Sdk\Model\Schema\SchemaBuilder;
 use Kubinyete\Assertation\Assert;
+use Ipag\Sdk\Model\Schema\Mutator;
+use Ipag\Sdk\Model\Schema\SchemaBuilder;
 
 /**
  * SplitRules Class
@@ -18,10 +18,11 @@ class SplitRules extends Model
      *  @param array $data
      *  array de dados do Split Rules.
      *
-     *  + [`'receiver_id'`] string.
+     *  + [`'seller_id'`] string.
      *  + [`'amount'`] float.
      *  + [`'percentage'`] float.
      *  + [`'charge_processing_fee'`] bool.
+     *  + [`'hold_receivables'`] bool.
      */
     public function __construct(?array $data = [])
     {
@@ -30,11 +31,11 @@ class SplitRules extends Model
 
     protected function schema(SchemaBuilder $schema): Schema
     {
-        $schema->string('receiver_id')->nullable();
-        $schema->string('receiver')->nullable();
+        $schema->string('seller_id')->nullable();
         $schema->float('amount')->nullable();
         $schema->float('percentage')->nullable();
         $schema->bool('charge_processing_fee')->nullable();
+        $schema->bool('hold_receivables')->nullable();
 
         return $schema->build();
     }
@@ -43,7 +44,7 @@ class SplitRules extends Model
     {
         return new Mutator(
             null,
-            fn($value, $ctx) =>
+            fn ($value, $ctx) =>
             is_null($value) ? $value :
             (
                 Assert::value(floatval($value))->gte(0)->get()
@@ -56,7 +57,7 @@ class SplitRules extends Model
     {
         return new Mutator(
             null,
-            fn($value, $ctx) =>
+            fn ($value, $ctx) =>
             is_null($value) ? $value :
             (
                 Assert::value(floatval($value))->gte(0)->get()
@@ -66,25 +67,24 @@ class SplitRules extends Model
     }
 
     /**
-     * Retorna o valor da propriedade receiver_id.
+     * Retorna o valor da propriedade seller_id.
      *
      * @return string|null
      */
-    public function getReceiverId(): ?string
+    public function getSellerId(): ?string
     {
-        return $this->get('receiver_id');
+        return $this->get('seller_id');
     }
 
     /**
-     * Seta o valor da propriedade receiver_id.
+     * Seta o valor da propriedade seller_id.
      *
-     * @param string|null $receiverId
+     * @param string|null $sellerId
      * @return self
      */
-    public function setReceiverId(?string $receiverId = null): self
+    public function setSellerId(?string $sellerId = null): self
     {
-        $this->set('receiver_id', $receiverId);
-        $this->set('receiver', $receiverId);
+        $this->set('seller_id', $sellerId);
 
         return $this;
     }
@@ -152,6 +152,28 @@ class SplitRules extends Model
     public function setChargeProcessingFee(?bool $chargeProcessingFee = null): self
     {
         $this->set('charge_processing_fee', $chargeProcessingFee);
+        return $this;
+    }
+
+    /**
+     * Retorna o valor da propriedade hold_receivables.
+     *
+     * @return boolean|null
+     */
+    public function getHoldReceivables(): ?bool
+    {
+        return $this->get('hold_receivables');
+    }
+
+    /**
+     * Seta o valor da propriedade hold_receivables.
+     *
+     * @param boolean|null $holdReceivables
+     * @return self
+     */
+    public function setHoldReceivables(?bool $holdReceivables = null): self
+    {
+        $this->set('hold_receivables', $holdReceivables);
         return $this;
     }
 

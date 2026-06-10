@@ -2,10 +2,10 @@
 
 namespace Ipag\Sdk\Model;
 
-use Ipag\Sdk\Model\Schema\Mutator;
 use Ipag\Sdk\Model\Schema\Schema;
-use Ipag\Sdk\Model\Schema\SchemaBuilder;
 use Kubinyete\Assertation\Assert;
+use Ipag\Sdk\Model\Schema\Mutator;
+use Ipag\Sdk\Model\Schema\SchemaBuilder;
 
 /**
  * Payment Class
@@ -26,6 +26,7 @@ final class Payment extends Model
      *  + [`'fraud_analysis'`] bool.
      *  + [`'softdescriptor'`] string.
      *  + [`'pix_expires_in'`] int.
+     *  + [`'recurring'`] bool.
      *
      *  + [`'card'`] array (opcional) dos dados do Payment Card.
      *  + &emsp; [`'holder'`] string.
@@ -54,6 +55,7 @@ final class Payment extends Model
         $schema->bool('fraud_analysis')->nullable();
         $schema->string('softdescriptor')->nullable();
         $schema->int('pix_expires_in')->nullable();
+        $schema->bool('recurring')->nullable();
 
         $schema->has('card', PaymentCard::class)->nullable();
         $schema->has('boleto', Boleto::class)->nullable();
@@ -65,7 +67,7 @@ final class Payment extends Model
     {
         return new Mutator(
             null,
-            fn($value, $ctx) =>
+            fn ($value, $ctx) =>
             is_null($value) ? $value :
             (
                 Assert::value(intval($value))->gt(0)->get()
@@ -225,6 +227,28 @@ final class Payment extends Model
     public function setPixExpiresIn(?int $pixExpiresIn = null): self
     {
         $this->set('pix_expires_in', $pixExpiresIn);
+        return $this;
+    }
+
+    /**
+     * Retorna o valor da propriedade `recurring`.
+     *
+     * @return bool|null
+     */
+    public function getRecurring(): ?bool
+    {
+        return $this->get('recurring');
+    }
+
+    /**
+     * Seta o valor da propriedade `recurring`.
+     *
+     * @param bool|null $recurring
+     * @return self
+     */
+    public function setRecurring(?bool $recurring = null): self
+    {
+        $this->set('recurring', $recurring);
         return $this;
     }
 

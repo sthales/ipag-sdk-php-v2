@@ -1,6 +1,6 @@
 <?php
 
-namespace Ipag\Sdk\Tests\Model;
+namespace Ipag\Sdk\Tests\Support\Provider\Antifraudes;
 
 use PHPUnit\Framework\TestCase;
 
